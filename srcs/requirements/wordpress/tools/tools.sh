@@ -1,7 +1,22 @@
 #!/bin/sh
 
-wget https://fr.wordpress.org/wordpress-6.3-fr_FR.tar.gz -P /var/www
-cd /var/www && tar -xzf wordpress-6.3-fr_FR.tar.gz && rm wordpress-6.3-fr_FR.tar.gz
-chown -R root:root /var/www/wordpress
-echo "clear_env = no" >> /etc/php/7.4/fpm/pool.d/www.conf
-sed -i 's/listen = \/run\/php\/php7.4-fpm.sock/listen = wordpress:9000/' /etc/php/7.4/fpm/pool.d/www.conf
+sleep 5
+
+cd /var/www/html
+wp core download  --allow-root
+wp config create  --dbname=$SQL_DATABASE--dbuser=$SQL_USER--dbpass=$SQL_PASSWORD--dbhost=$DB_HOST	--allow-root --path="/var/www/html"
+
+wp core install --url=$DOMAIN_NAME \
+				--title="my website" \
+				--admin_user="yassine" \
+				--admin_password="1234" \
+				--admin_email="yassineelhajjami610@gmail.com" \
+				--allow-root \
+				--path="/var/www/html"
+
+# wp user create	$WP_USER $WP_EMAIL \
+# 				--user_pass=$WP_PASS \
+# 				--role=$WP_ROLE \
+# 				--allow-root
+
+/usr/sbin/php-fpm7.4 -F

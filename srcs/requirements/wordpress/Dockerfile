@@ -1,40 +1,21 @@
 FROM debian:bullseye
 
-# RUN apt update
-# RUN apt install vim -y
-# RUN apt-get -y install wget
-# RUN apt-get install -y php7.3\
-#     php-fpm\
-#     php-mysql\
-#     mariadb-client
+RUN apt update -y
+RUN apt install -y php7.4-fpm\
+    php-mysql\
+    mariadb-client\
+    curl\
+    sendmail
 
-# COPY ./tools/tools.sh .
-# RUN chmod +x tools.sh && ./tools.sh
+RUN mkdir -p /var/www/html
 
-# RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-# RUN chmod +x wp-cli.phar
-# RUN mv wp-cli.phar /usr/local/bin/wp
+RUN mkdir -p /run/php/
 
-# FROM debian:bullseye
-
-RUN apt update
-RUN apt install -y vim wget mariadb-client
-
-# Install PHP and other necessary components (add your PHP installation steps here)
-
-COPY ./tools/tools.sh .
-RUN chmod +x tools.sh && ./tools.sh
-
-RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN sed -i "s|listen = /run/php/php7.4-fpm.sock|listen = 9000|g" /etc/php/7.4/fpm/pool.d/www.conf
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp
 
-RUN wp config create	--allow-root \
-    --dbname=$SQL_DATABASE \
-    --dbuser=$SQL_USER \
-    --dbpass=$SQL_PASSWORD \
-    --dbhost=172.18.0.2:3306 --path='/var/www/wordpress'
-
-
-CMD ["/usr/sbin/php-fpm7.3",  "-F"]
-`
+COPY ./tools/tools.sh .
+RUN chmod +x tools.sh
+ENTRYPOINT [ "./tools.sh" ]
