@@ -27,4 +27,9 @@ wp core install --url=$DOMAIN_NAME \
 				--admin_password=$ADMINPASS\
 				--admin_email=$ADMINMAIL --path="/var/www/html"
 
+wp user create $NORMALUSER $NORMALUSEREMAIL \
+        --role=$WP_ROLE \
+        --user_pass=NORMALUSERPASS \
+        --path="/var/www/html"
+
 /usr/sbin/php-fpm7.4 -F
