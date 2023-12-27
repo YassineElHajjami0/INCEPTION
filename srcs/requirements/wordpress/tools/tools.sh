@@ -10,7 +10,6 @@ if [ ! -e index.php ]; then
     wp core download --allow-root
 fi
 
-# wp core download  --allow-root
 if [ ! -e wp-config.php ]; then
     wp config create --dbname=$SQL_DATABASE \
                      --dbuser=$SQL_USER \
@@ -21,11 +20,11 @@ if [ ! -e wp-config.php ]; then
 fi
 
 wp core install --url=$DOMAIN_NAME \
-				--title="my website" \
-				--admin_user="yassine" \
+				--title=$TITLE \
+				--admin_user=$ADMINUSER \
                 --skip-email \
 				--allow-root \
-				--admin_password="1234" \
-				--admin_email="yassineelhajjami610@gmail.com" --path="/var/www/html"
+				--admin_password=$ADMINPASS\
+				--admin_email=$ADMINMAIL --path="/var/www/html"
 
 /usr/sbin/php-fpm7.4 -F
