@@ -52,12 +52,12 @@ services:
 volumes:
     wp-volume:
         driver_opts:
-            device : /Users/yel-hajj/wordpress
+            device : /Users/yel-hajj/inception/wordpress
             type : none
             o: bind
     db-volume:
         driver_opts:
-            device: /Users/yel-hajj/mariadb
+            device: /Users/yel-hajj/inception/mariadb
             type: none
             o: bind
 
