@@ -4,8 +4,7 @@ RUN apt update -y
 RUN apt install -y php7.4-fpm\
     php7.4-mysql\
     mariadb-client\
-    curl\
-    sendmail
+    curl
 
 RUN mkdir -p /var/www/html
 

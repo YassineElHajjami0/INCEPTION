@@ -14,7 +14,7 @@ services:
     depends_on:
       - wordpress
     networks:
-      - nt
+      - net
     volumes:
       - wp-volume:/var/www/html
     restart: on-failure
@@ -28,7 +28,7 @@ services:
     env_file:
       - .env
     networks:
-      - nt
+      - net
     volumes:  
       - db-volume:/var/lib/mysql/
     restart: on-failure
@@ -44,7 +44,7 @@ services:
     depends_on:
       - mariadb
     networks:
-      - nt
+      - net
     volumes:
       - wp-volume:/var/www/html
     restart: on-failure
@@ -52,15 +52,15 @@ services:
 volumes:
     wp-volume:
         driver_opts:
-            device : /Users/yel-hajj/inception/wordpress
+            device : /home/yassine/data/wordpress
             type : none
             o: bind
     db-volume:
         driver_opts:
-            device: /Users/yel-hajj/inception/mariadb
+            device: /home/yassine/data/mariadb
             type: none
             o: bind
 
 networks:
-  nt:
-    name: nt
+  net:
+    name: net

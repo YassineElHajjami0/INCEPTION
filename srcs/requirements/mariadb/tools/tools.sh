@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo "port            = 3306" >> /etc/mysql/mariadb.conf.d/50-server.cnf 
+echo "bind-address    = 0.0.0.0" >> /etc/mysql/mariadb.conf.d/50-server.cnf 
+
+
 mysqld_safe &
 
 while ! mysqladmin ping --silent; do
